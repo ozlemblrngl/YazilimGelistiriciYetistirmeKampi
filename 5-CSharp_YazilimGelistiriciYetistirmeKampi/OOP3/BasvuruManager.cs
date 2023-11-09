@@ -8,21 +8,21 @@ namespace OOP3
 {
     internal class BasvuruManager
     {
-        //Eğer aşağıdaki gibi yaparsak kredi başvurusunda sadece konut kredisini değerlendirmiş oluruz.
+        // Parametreye sadece KonutKrediManager()'ı verirsek kredi başvurusunda sadece konut kredisini değerlendirmiş oluruz.
         // öyle bir şey yapmalıyız ki tüm kredileri değerlendirebilsin başvuruda. 
-        // BUNUN İÇİN DE İNTERFACE' İ KULLANIRIZ ÇÜNKÜ İNTERFACE'İ IMPLEMENTE EDEN HER SINIFIN REFERANSINI TAŞIR INTERFACE.
+        // BUNUN İÇİN DE INTERFACE' İ KULLANIRIZ ÇÜNKÜ INTERFACE'İ IMPLEMENTE EDEN HER SINIFIN REFERANSINI TAŞIR INTERFACE.
         // bu nedenle BasvuruYap() metodunun içine parametre olarak interface i koyarız. 
         // bu şekilde hepsinin referansını tuttuğundan her krediyi değerlendirebiliriz.
-        // aşağıya eklediğimiz ILoggerService loggerService parametresi ile aynı zamanda bu işlemi loglamak istediğimizi belirttik.
+        // aşağıya eklediğimiz "ILoggerService loggerService" parametresi ile aynı zamanda bu işlemi loglamak istediğimizi belirttik.
 
-        // aşağıda method injection yapmış olduk. 
+        // aşağıda böylece "method injection" yapmış olduk. 
         // yani aşağıdaki BasvuruYap() metodunun kullanacağı krediManager'in ne olacağını yani hangi kredi olacağını
         // ve hangi logta loglanacağını enjekte ediyoruz. Bunun bir de constructor injection'ı varmış.
         // aşağıda hangi kredi olduğu ya da hangi log olduğuna ilişkin bilgi yok, interface'leri verilmiş; bu nedenle
         // herhangi bir kredi veya log için kullanılabilir aağıdaki metot.
-        // sadece soyut halleri var aşağıda biz daha sonra somut hallerini enjekte ediyoruz 
+        // kısaca sadece soyut halleri var aşağıda, biz daha sonra somut hallerini enjekte ediyoruz 
 
-        // Aşağıda loglamayı tekil yaptığımız için ILoggerService loggerService ile yaptık çoğul yapsaydık List<ILoggerService> loggerService şeklinde yazardık parametreyi.
+        // Aşağıda loglamayı tekil yaptığımız için "ILoggerService loggerService" ile yaptık çoğul yapsaydık "List<ILoggerService> loggerService" şeklinde yazardık parametreyi.
         public void BasvuruYap(IKrediManager krediManager, ILoggerService loggerService)
        // public void BasvuruYap(IKrediManager krediManager, List<ILoggerService> loggerServices) // listli yapmak istersek bu şekilde 
         {
@@ -31,7 +31,7 @@ namespace OOP3
             //
 
             krediManager.Hesapla();
-            //yukarıdaki gibi interface üzerinden atanan değişken parametresi ile her krediyi hesaplayabiliriz.
+            // yukarıdaki gibi interface üzerinden atanan değişken parametresi ile her krediyi hesaplayabiliriz.
 
              loggerService.Log();  // tekli loglama da bunu kullanıyoruz.
 
@@ -39,12 +39,14 @@ namespace OOP3
             {
                 loggerService.Log();
             }
-         */ // listli yapmak istediğimizde foreach döngüsünü de ekliyoruz.
+         */ 
+         
+            // listli yapmak istediğimizde foreach döngüsünü de ekliyoruz.
 
 
-            // Başvurunun sonunda hangi loggerService gönderilmişse onu logla diyoruz böylece.
+            // "Başvurunun sonunda hangi loggerService gönderilmişse onu logla" diyoruz böylece.
 
-            //Eğer aşağıdaki gibi yaparsak kredi başvurusunda sadece konut kredisini değerlendirmiş oluruz.
+            // Eğer aşağıdaki gibi yaparsak kredi başvurusunda sadece konut kredisini değerlendirmiş oluruz.
             // öyle bir şey yapmalıyız ki tüm kredileri değerlendirebilsin başvuruda. 
             // BUNUN İÇİN DE İNTERFACE' İ KULLANIRIZ ÇÜNKÜ İNTERFACE'İ IMPLEMENTE EDEN HER SINIFIN REFERANSINI TAŞIR INTERFACE.
            
@@ -53,7 +55,7 @@ namespace OOP3
 
         }
 
-        // burada aynı veri türünden sayısının önemli olmadığı bir veri tutan yapı istiyoruz.
+        // burada aynı veri türünden, sayısının önemli olmadığı bir veri tutan yapı istiyoruz.
         // bunu da en iyi List<> ile yapabiliriz. çünkü 0 tane de 1000 tane de alabilir. Array gibi başta koyduğumuz sınırla sınırlı değildir.
         // kredileri listeleyebilmek için List< > i kullanabiliriz ve tüm kreditürlerini de gösterebilmek adına 
         // interface'mizi liste'nin içine type parametresi olarak alırız. Yani List<IKrediManager> şeklinde. 
