@@ -90,16 +90,16 @@ internal class Program
         // o nedenle list'li halini aşağıda paylaşıyorum. Aşağıdaki gibi list'le de çoklu loglayabiliyoruz. 
 
         // List<ILoggerService> loggers = new List<ILoggerService> {new SmsLoggerService(), new FileLoggerService()}
-        //burada da kendi listemizi oluşturuyoruz.
-        //Aşağıdaki gibi yazabiliriz.
+        // burada da kendi listemizi oluşturuyoruz.
+        // Aşağıdaki gibi yazabiliriz.
 
-        //BasvuruManager basvuruManager1 = new BasvuruManager();
+        // BasvuruManager basvuruManager1 = new BasvuruManager();
         // basvuruManager.BasvuruYap(new EsnafKredisiManager(), loggers });
 
         // ya da aşağıdaki gibi metodun içinde new'leyebiliriz list'i
 
-        //BasvuruManager basvuruManager1 = new BasvuruManager();
-        //basvuruManager.BasvuruYap(new EsnafKredisiManager(), new List<ILoggerService> { new DataBaseLoggerService(), new SmsLoggerService() });
+        // BasvuruManager basvuruManager1 = new BasvuruManager();
+        // basvuruManager.BasvuruYap(new EsnafKredisiManager(), new List<ILoggerService> { new DataBaseLoggerService(), new SmsLoggerService() });
 
 
     }
