@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OOP2
 {
-    //Coorporate
+    // Coorporate
     // inheritance : miras
     // tüzel müşteri bir müşteridir.
     // yani müşteride olan özellikler tüzel müşteride de vardır.
