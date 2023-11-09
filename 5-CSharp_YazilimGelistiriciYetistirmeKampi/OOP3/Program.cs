@@ -37,18 +37,18 @@ internal class Program
         // artık bu metot içerisinde çalışmasını sağlayabiliriz.
 
         BasvuruManager basvuruManager = new BasvuruManager();
-        //basvuruManager.BasvuruYap(ihtiyacKrediManager2);
-        //basvuruManager.BasvuruYap(ihtiyacKrediManager);
-        //basvuruManager.BasvuruYap(tasitKrediManager);
-        //basvuruManager.BasvuruYap(tasitKrediManager2);
-        //basvuruManager.BasvuruYap(konutKrediManager);
-        //basvuruManager.BasvuruYap(konutKrediManager2);
+        // basvuruManager.BasvuruYap(ihtiyacKrediManager2);
+        // basvuruManager.BasvuruYap(ihtiyacKrediManager);
+        // basvuruManager.BasvuruYap(tasitKrediManager);
+        // basvuruManager.BasvuruYap(tasitKrediManager2);
+        // basvuruManager.BasvuruYap(konutKrediManager);
+        // basvuruManager.BasvuruYap(konutKrediManager2);
 
         // aşağıdaki listeye ne gönderirsek onların kredilerini hesaplayacak çünkü
         // KrediOnBilgilendirmesiYap() metodunun içine listeyi teker teker hesaplamak üzere Hesapla() metodunu yazdık
 
         List<IKrediManager> krediler = new List<IKrediManager>() {ihtiyacKrediManager, tasitKrediManager, konutKrediManager };
-        //basvuruManager.KrediOnBilgilendirmesiYap(krediler);
+        // basvuruManager.KrediOnBilgilendirmesiYap(krediler);
 
         Console.WriteLine("-----------------------------------------------------");
 
