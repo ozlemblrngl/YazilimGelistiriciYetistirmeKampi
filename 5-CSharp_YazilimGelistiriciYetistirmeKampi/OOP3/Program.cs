@@ -19,8 +19,8 @@ internal class Program
 
         Console.WriteLine("------------------------------------------------------");
 
-        // YUKARIDA YAZILANLARA EK OLARAK AŞAĞIDAKİ GİBİ YAZSAYDIK DA AYNI SONUCU ALIRDIK YUKARIDAKİLERLE.
-        // Interface'lerde o interface'i implemente eden Class'ın referans numarasını tutar.
+        // YUKARIDA YAZILANLARA EK OLARAK AŞAĞIDAKİ GİBİ YAZSAYDIK DA AYNI SONUCU ALIRDIK.
+        // Interface'ler de o interface'i implemente eden Class'ın referans numarasını tutar.
 
         IKrediManager ihtiyacKrediManager2 = new IhtiyacKrediManager();
         ihtiyacKrediManager2.Hesapla();
@@ -64,6 +64,7 @@ internal class Program
 
         BasvuruManager basvuruManager2 = new BasvuruManager();
         basvuruManager2.BasvuruYap(konutKrediManager2, new DataBaseLoggerService());
+        // bu newleme'de diyoruz ki konutKrediManager2'yi database'e logla. 
 
         Console.WriteLine("---------------------------------------------------------");
         basvuruManager2.BasvuruYap(tasitKrediManager, fileLoggerService);
@@ -71,7 +72,7 @@ internal class Program
         // ILoggerService dataBaseLoggerService = new DataBaseLoggerService(); veya
         // DataBaseLoggerService dataBaseLoggerService = new DataBaseLoggerService(); gibi ifadeler yazmadan yukarıdaki gibi de new'leme yapabiliriz.
         // yaptığımız new'lenen nesneyi yazdırabiliriz new DataBaseLoggerService() yerine dataBaseLoggerService yazabiliriz yani. iki üstteki gibi new'lemeler yapmak şartıyla.
-        // bu newleme'de diyoruz ki konutKrediManager2'yi database'e logla. 
+       
 
         // yukarıda yaptığımız gibi interface'lerle yapılan bu işlemler yazılımda sürdürülebilirliği sağlar.
 
