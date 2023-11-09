@@ -23,8 +23,10 @@ namespace OOP3
         // kısaca sadece soyut halleri var aşağıda, biz daha sonra somut hallerini enjekte ediyoruz 
 
         // Aşağıda loglamayı tekil yaptığımız için "ILoggerService loggerService" ile yaptık çoğul yapsaydık "List<ILoggerService> loggerService" şeklinde yazardık parametreyi.
+        // public void BasvuruYap(IKrediManager krediManager, List<ILoggerService> loggerServices) // listli yapmak istersek bu şekilde 
+       
         public void BasvuruYap(IKrediManager krediManager, ILoggerService loggerService)
-       // public void BasvuruYap(IKrediManager krediManager, List<ILoggerService> loggerServices) // listli yapmak istersek bu şekilde 
+
         {
 
             // başvuran bilgilerini değerlendirme
