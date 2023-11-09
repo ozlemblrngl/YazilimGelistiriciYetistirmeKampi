@@ -18,7 +18,6 @@ namespace OOP1
 
         public int UnitsInStock { get; set; }
 
-
         
     }
 }
