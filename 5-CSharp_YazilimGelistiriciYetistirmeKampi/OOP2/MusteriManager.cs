@@ -10,16 +10,16 @@ namespace OOP2
     public class MusteriManager
     {
 
-        // burada parametre olarak Musteri classını gönderebiliyor olmamız bir polymorphizm yani çok biçimliliktir.
+        // burada parametre olarak Musteri classını gönderebiliyor olmamız bir polymorphism yani çok biçimliliktir.
         // base sınıfta ister gerçek kişiyi ister tüzel kişiyi tutabiliriz.
-        //eger bir base sınıfımız varsa musteri gibi bu bir referans tutucudur. Burada da hem gerçek kişiyi hem de tüzel kişiyi tutar.
+        // eger bir base sınıfımız varsa musteri gibi bu bir referans tutucudur. Burada da hem gerçek kişiyi hem de tüzel kişiyi tutar.
 
         public void Add(Musteri musteri)
         {
-            //if (musteri.)
-            //{
+            // if (musteri.)
+            // {
             // burada genelde uygulamada bu tarz şeyler yazılır
-            //}
+            // }
         }
     }
 }
