@@ -19,7 +19,7 @@ internal class Program
 
         Console.WriteLine("------------------------------------------------------");
 
-        // YUKARIDA YAZILANLARA EK OLARAK AŞAĞIDAKİ GİBİ YAZSAYDIK DA AYNI SONUCU ALIRDIK.
+        // YUKARIDA YAZILANLARA EK OLARAK AŞAĞIDAKİ GİBİ YAZSAYDIK DA AYNI SONUCU ALIRDIK
         // Interface'ler de o interface'i implemente eden Class'ın referans numarasını tutar.
 
         IKrediManager ihtiyacKrediManager2 = new IhtiyacKrediManager();
@@ -87,7 +87,7 @@ internal class Program
         basvuruManager.BasvuruYap(esnafKrediManager, new SmsLoggerService()); // ayrıca instance da oluşturulabilir böyle de instance oluşuyor new ile
 
         // list 'i eklediğimden yukarıdakiler patlıyor. 
-        // o nedenle list'i halini aşağıda paylaşıyorum. Aşağıdaki gibi listle de çoklu loglayabiliyoruz. 
+        // o nedenle list'li halini aşağıda paylaşıyorum. Aşağıdaki gibi list'le de çoklu loglayabiliyoruz. 
 
         // List<ILoggerService> loggers = new List<ILoggerService> {new SmsLoggerService(), new FileLoggerService()}
         //burada da kendi listemizi oluşturuyoruz.
