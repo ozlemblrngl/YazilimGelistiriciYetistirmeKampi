@@ -4,7 +4,7 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        //SOYUTLAMA
+        // SOYUTLAMA
 
         // eğer müşteri gerçek kişi ise başka verilere, tüzel kişi ise başka verilere ihtiyaç duyulacaktır.
         // sırf ikisi de müşteri diye birbirlerinin yerlerine kullanılamazlar.
@@ -15,16 +15,16 @@ internal class Program
 
         // eğer urun, müşteri, çalışan gibi ifadeler görüyorsak ( product, customer, employee vs) bunlar entity'dir(varlık'tır)
         // buralarda operasyon yazılmaz. Bunlar property sınıflarıdır. Hatalı olarak bunu yapanlar vardır ama yapılmamalıdır.
-        // operasyonlar ise operasyon sınıfına yazılırlar.
+        // operasyonlar ise operasyon sınıfına yazılır.
 
 
-        //Musteri musteri1 = new Musteri();
-        //musteri1.Adi = "özlem";
-        //musteri1.SoyAdi = "Belörenoğlu";
-        //musteri1.Id = 1;
-        //musteri1.TcNo = "222222222";
-        //musteri1.MusteriNo = "12234";
-        //musteri1.SirketAdi = "?";    // bu kısımlar kötü kodlamaya örnekti.
+        // Musteri musteri1 = new Musteri();
+        // musteri1.Adi = "özlem";
+        // musteri1.SoyAdi = "Belörenoğlu";
+        // musteri1.Id = 1;
+        // musteri1.TcNo = "222222222";
+        // musteri1.MusteriNo = "12234";
+        // musteri1.SirketAdi = "?";    // bu kısımlar kötü kodlamaya örnekti.
 
         Console.WriteLine("-----------------------------------------------------------");
 
@@ -43,7 +43,7 @@ internal class Program
         musteri2.VergiNo = "1234567889094";
 
 
-        // burada musteri base'dir ve child'larının da da nesnesini üretebiliyor.
+        // burada musteri base'dir ve child'larının da nesnesini üretebilir.
         Musteri musteri3 = new GercekMusteri();
         Musteri musteri4 = new TuzelMusteri();
 
