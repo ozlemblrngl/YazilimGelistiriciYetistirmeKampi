@@ -10,7 +10,7 @@ namespace OOP3
     {
         // Parametreye sadece KonutKrediManager()'ı verirsek kredi başvurusunda sadece konut kredisini değerlendirmiş oluruz.
         // öyle bir şey yapmalıyız ki tüm kredileri değerlendirebilsin başvuruda. 
-        // BUNUN İÇİN DE INTERFACE' İ KULLANIRIZ ÇÜNKÜ INTERFACE'İ IMPLEMENTE EDEN HER SINIFIN REFERANSINI TAŞIR INTERFACE.
+        // BUNUN İÇİN DE INTERFACE'i KULLANIRIZ ÇÜNKÜ INTERFACE'İ IMPLEMENTE EDEN HER SINIFIN REFERANSINI TAŞIR INTERFACE.
         // bu nedenle BasvuruYap() metodunun içine parametre olarak interface i koyarız. 
         // bu şekilde hepsinin referansını tuttuğundan her krediyi değerlendirebiliriz.
         // aşağıya eklediğimiz "ILoggerService loggerService" parametresi ile aynı zamanda bu işlemi loglamak istediğimizi belirttik.

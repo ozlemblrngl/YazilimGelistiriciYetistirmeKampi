@@ -22,7 +22,7 @@ namespace DataAccess.Concrete.EntityFramework
     // DataAccess'in içine kurduk ve artık DataAccess'in içinde EntityFramework'u kullanabiliriz.
     // artık buradaki entity'lerle veritabanındaki tabloları ilişkilendirebiliriz. 
 
-    // context, veritabanı ile kendi class larımızı ilişkilendirdiğimiz class'ın ismidir.
+    // context, veritabanı ile kendi class'larımızı ilişkilendirdiğimiz class'ın ismidir.
     public class EfCategoryDal : ICategoryDal
     {
         public void Add(Category entity)
