@@ -13,13 +13,11 @@ namespace Entities.Concrete
     // bir class'ın default'ı internal'dır.
     public class Product : IEntity
     {
-        public int Id{ get; set; }
+        public int ProductId{ get; set; }
 
         public  int CategoryId { get; set; }
 
-        public Category category { get; set; }
-
-        public string Name { get; set; }
+        public string ProductName { get; set; }
 
         public short UnitsInStock { get; set; }
 

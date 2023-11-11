@@ -3,6 +3,7 @@ using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,11 +25,11 @@ namespace DataAccess.Concrete.InMemory
         {
             // Oracle, Sql Server, Postgre, MongoDb 'den geliyormuş gibi verileri simule ediyoruz.
             _products = new List<Product> {
-            new Product{Id = 1, CategoryId = 1, Name= "Bardak", UnitPrice = 15, UnitsInStock = 15},
-            new Product{Id = 2, CategoryId = 1, Name= "Kamera", UnitPrice = 500, UnitsInStock = 3},
-            new Product{Id = 3, CategoryId = 2, Name= "Telefon", UnitPrice = 1500, UnitsInStock = 2},
-            new Product{Id = 4, CategoryId = 2, Name= "Klavye", UnitPrice = 150, UnitsInStock = 65},
-            new Product{Id = 5, CategoryId = 2, Name= "Fare", UnitPrice = 85, UnitsInStock = 1}
+            new Product{ProductId = 1, CategoryId = 1, ProductName= "Bardak", UnitPrice = 15, UnitsInStock = 15},
+            new Product{ProductId = 2, CategoryId = 1, ProductName= "Kamera", UnitPrice = 500, UnitsInStock = 3},
+            new Product{ProductId = 3, CategoryId = 2, ProductName= "Telefon", UnitPrice = 1500, UnitsInStock = 2},
+            new Product{ProductId = 4, CategoryId = 2, ProductName= "Klavye", UnitPrice = 150, UnitsInStock = 65},
+            new Product{ProductId = 5, CategoryId = 2, ProductName= "Fare", UnitPrice = 85, UnitsInStock = 1}
 
 
             };
@@ -48,7 +49,7 @@ namespace DataAccess.Concrete.InMemory
             // Product productToDelete = null; // Product productToDelete; de yazabiliriz ama hata vermesin diye null değeri atadık.
             //bi üstteki satırdaki ifadeye gerek yok aşağıdaki gibi direkt linq 'i atadık.
 
-            Product productToDelete = _products.SingleOrDefault(p => p.Id == product.Id);
+            Product productToDelete = _products.SingleOrDefault(p => p.ProductId == product.ProductId);
 
             // aşağıdaki foreach'li kod aslında "SingleOrDefault(p=>)" ı içerir. yani teker teker dolaşır.
          /* 
@@ -91,11 +92,17 @@ namespace DataAccess.Concrete.InMemory
 
         }
 
-        public List<Product> GetAll()
+        public Product Get(Expression<Func<Product, bool>> filter)
         {
-            return _products; // listenin tamamı istendiğinde _products listesinin tamamını döndür anlamında.
+            throw new NotImplementedException();
         }
 
+        public List<Product> GetAll(Expression<Func<Product, bool>> filter = null)
+        {
+            return _products; //listenin tamamı istendiğinde _products listesinin tamamını döndür anlamında.
+
+        }
+      /*
         public List<Product> GetAllByCategory(int categoryId)
         {
            return _products.Where(p => p.CategoryId == categoryId).ToList();
@@ -103,13 +110,14 @@ namespace DataAccess.Concrete.InMemory
             // tıpkı sql deki where gibi ilgili şartları sağlayanları tablolamak gibi listeler.
             // == categoryId && ... demek suretiyle istediğimiz kadar koşul ekleyebilriz. tıpkı sql gibi
         }
+      */ // yukarıdaki kısım IEntityRepository interface'i implemente edildiğinden yorum satırına alındı.
 
         public void Update(Product product)
         {
             //gönderdiğim ürün id'sine sahip ürün id'siine sahip listedeki ürünü bul.
-            Product productToUpdate = _products.SingleOrDefault(p => p.Id == product.Id);
+            Product productToUpdate = _products.SingleOrDefault(p => p.ProductId == product.ProductId);
             // aşağıdaki gibi güncelleyebiliriz.
-            productToUpdate.Name = product.Name;
+            productToUpdate.ProductName = product.ProductName;
             productToUpdate.CategoryId = product.CategoryId;
             productToUpdate.UnitPrice = product.UnitPrice;
             productToUpdate.UnitsInStock = product.UnitsInStock;    
