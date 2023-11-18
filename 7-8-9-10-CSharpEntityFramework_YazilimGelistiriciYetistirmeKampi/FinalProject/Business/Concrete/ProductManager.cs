@@ -24,6 +24,9 @@ namespace Business.Concrete
             _productDal = productDal;
         }
 
+
+        // [LogAspect] ---> AOP // detaylar ProductsController program.cs'de
+        // [Validate] --> doğrula, örn ürün eklencek kuralları doğrula dicez. // loglama kurallarından biri.
         public IResult Add(Product product) // burayı da IResult'a çeviriyoruz.
         {
           
@@ -61,6 +64,8 @@ namespace Business.Concrete
             // vs de yazabilirdik yukarıda ama bunu yapmadan
             // // return new Result() diyebiliriz çünkü IResult zaten  bu değeri tutuyor içinde.
         }
+
+        // [Cache] 'le dicez örneğin // loglama kurallarından
 
         public IDataResult<List<Product>> GetAll()
         {
