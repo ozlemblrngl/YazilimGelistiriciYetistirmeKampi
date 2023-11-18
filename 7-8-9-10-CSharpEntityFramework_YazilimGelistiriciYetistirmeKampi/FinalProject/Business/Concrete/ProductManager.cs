@@ -65,6 +65,12 @@ namespace Business.Concrete
             // // return new Result() diyebiliriz çünkü IResult zaten  bu değeri tutuyor içinde.
         }
 
+        public IResult Delete(Product product)
+        {
+            _productDal.Delete(product);
+            return new SuccessResult(Messages.ProductDeleted);
+        }
+
         // [Cache] 'le dicez örneğin // loglama kurallarından
 
         public IDataResult<List<Product>> GetAll()
@@ -75,7 +81,7 @@ namespace Business.Concrete
             // bir iş sınıfı başka sınıfları newlemez newlerse bağımlı kalır yarın bir gün sıkıntı yaşarız.
             // her şeyi değiştirmemiz gerekir. o nedenle constructor yaparız.Yukarıda yaptığımız gibi
 
-            if (DateTime.Now.Hour == 22)
+            if (DateTime.Now.Hour == 16)
             {
                 return new ErrorDataResult<List<Product>>(Messages.MaintenanceTime);
             }
@@ -112,6 +118,12 @@ namespace Business.Concrete
             */ 
             // hoca siz yazmayın dedi. Yazıp console da çalıştırınca sistem bakımda yazısı geliyor.// şu an saat 23 bu arada.
             return new SuccessDataResult<List<ProductDetailDto>>(_productDal.GetProductDetails());
+        }
+
+        public IResult Update(Product product)
+        {
+            _productDal.Update(product);
+            return new SuccessResult(Messages.ProductUpdated);
         }
     }
 }
