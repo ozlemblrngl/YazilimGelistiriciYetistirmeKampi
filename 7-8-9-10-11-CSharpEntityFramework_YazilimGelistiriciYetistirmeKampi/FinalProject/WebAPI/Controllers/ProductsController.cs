@@ -54,7 +54,7 @@ namespace WebAPI.Controllers
                                       // istersek boş bırakıp sadece işlem sonucunu da görebiliriz.
                                       // Data yazarsak datayı da döndür demiş oluruz--> return Ok(result.Data)
             }
-            return BadRequest(result);  // http statülerinden işelem sunucu tarafından anlaşılamadı olan 400 BadResult'ı döndür demek. 
+            return BadRequest(result);  // http statülerinden işlem sunucu tarafından anlaşılamadı olan 400 BadResult'ı döndür demek. 
                                                 // ama biz burda kendimiz sistem bakımda mesajı ataması yapmıştık.
                                                 // result.Message yazarsak sadece mesajı verir. ama hiçbir şey yazmazsak IDataResult'taki değerlerin hepsini döndürür.
         }
@@ -80,7 +80,7 @@ namespace WebAPI.Controllers
 
          [HttpGet("getbyid")] // [HttpGet] ---> eski hali
 
-        // aşağıdaki kodu çalıştırınca postman de yukarıda get endpoinini kullandığımız için daha önce kullanılanla eşleştiğini belirten uyarı geliyor.
+        // aşağıdaki kodu çalıştırınca postman de yukarıda get endpointini kullandığımız için daha önce kullanılanla eşleştiğini belirten uyarı geliyor.
         // The request matched multiple endpoints. uyarısı
         // bunun üzerine gidip postman'de url e ekleme yapıyoruz sonuna ?id=1 yazıyoruz.
         // url miz şöyle oluyor: https://localhost:44328/api/products?id=1
@@ -99,14 +99,14 @@ namespace WebAPI.Controllers
         }
 
         // aşağıdakinde ise bir veri gönderme (post) durumu vardır get değildir. o nedenle postaman de get yazan yer post yapılır.
-        // ayrıca tamma burada bir veri gönderiyoruz ekleme yapıyoruz ama değerleri girmedik. postmande de bu uyarıyı görüyoruz.
+        // ayrıca burada bir veri gönderiyoruz ekleme yapıyoruz ama değerleri girmedik. postmande de bu uyarıyı görüyoruz.
         // o nedenle gidip postman in body kısmında değerleri giriyoruz.
         // ardından raw 'u ve Json ı seçiyoruz
         // peki buraya ne gönderiyoruz? product'ın karşılığı olan bir bilgiyi yani değerleri giriyoruz.
         // post'u get 'e çekip ürünlerimizi görüp ordan bir süslü parantezli yani bir ürünü temsil eden yeri kopyalıyoruz, virgül dahil değil.
         // sonra get'i tekrar post yap gel body'e yapıştır.
         // şu an northwind le çalıştığımız için productId'si identity özelliğinden otomatik artıyor o nedenle productId kısmını siliyoruz çünkü değerini biz vermiyoruz otomatik artıyor.
-        // değerleri girip send dediğimizde ürün eklendi mesajı geliyor. ve get e gidip sen diyip listeleme yaptığımızda tüm ürünlerin sonunda eklediğimiz ürünü de görüyoruz.
+        // değerleri girip send dediğimizde ürün eklendi mesajı geliyor. ve get e gidip send diyip listeleme yaptığımızda tüm ürünlerin sonunda eklediğimiz ürünü de görüyoruz.
 
 
         [HttpPost("add")] // [HttpPost]----> eski hali // post result yapılsın anlamında
@@ -118,9 +118,10 @@ namespace WebAPI.Controllers
 
             if (result.Success) 
             {
-            return Ok(result);
+                return Ok(result);
             }
-         return BadRequest(result);
+
+            return BadRequest(result);
         }
 
         [HttpDelete("delete")]
@@ -131,9 +132,9 @@ namespace WebAPI.Controllers
             if (result.Success) 
             
             { 
-            return Ok(result);        
+                 return Ok(result);        
             }
-        return BadRequest(result);
+            return BadRequest(result);
         
         }
 
@@ -147,7 +148,7 @@ namespace WebAPI.Controllers
             {
                 return Ok(result);
             }
-        return BadRequest(result);
+            return BadRequest(result);
         
         }
 
