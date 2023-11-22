@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -37,7 +38,10 @@ namespace Business.Concrete
         // örn girilen ürün en az 2 harften oluşmalı kuralı bir validasyondur. Yapısal uyum denetlenir.
         // öğrenciler validasyon ve business kodlarını genelde birbirine karıştırıyor.İkisini ayırmamız gerekli.
         // validation iş kurallarının alt maddesidir.
-        public IResult Add(Product product) // burayı da IResult'a çeviriyoruz.
+
+
+        [ValidationAspect(typeof(ProductValidator))] // ASPECT'in son hali bu. Şu an metodumuzda validation yok ama aspect'i ekledik.
+        public IResult Add(Product product) 
         {
             // aşağıdaki iki if blogu da doğrulamaya ilişkindir(validation)
             // productvalidator de yaptığmız için aşağıdaki validationları sildik buradan
@@ -93,7 +97,12 @@ namespace Business.Concrete
             // AOP bu aşamada devreye girecek.
             // bu aşamada core'da utilities'e interceptors klasörü ekleyeceğiz bu da araya girmek demek.
 
-            ValidationTool.Validate(new ProductValidator(), product); 
+
+            //aşağıdaki aspects/autofac/Validation içindeki koddan faydalanarak
+            //artık attribute şeklinde validation yapacağımız için kurtuluyoruz
+            // bunun yerine gidip metodun başına [ValidationAspect(typeof(ProductValidator))] yazıyoruz.
+
+            //ValidationTool.Validate(new ProductValidator(), product); 
 
 
             _productDal.Add(product);
