@@ -23,12 +23,12 @@ namespace Business.Concrete
     public class ProductManager : IProductService
     {
         IProductDal _productDal;
-        
+
 
         public ProductManager(IProductDal productDal)
         {
             _productDal = productDal;
-          
+
         }
 
 
@@ -44,10 +44,12 @@ namespace Business.Concrete
 
 
 
-       [ValidationAspect(typeof(ProductValidator))] // ASPECT'in son hali bu. Şu an metodumuzda validation yok ama aspect'i ekledik.
-       // biz attributelara tipleri type of ile ekliyoruz.
-        public IResult Add(Product product) 
+        [ValidationAspect(typeof(ProductValidator))] // ASPECT'in son hali bu. Şu an metodumuzda validation yok ama aspect'i ekledik.
+                                                     // biz attributelara tipleri type of ile ekliyoruz.
+        public IResult Add(Product product)
         {
+
+
             // aşağıdaki iki if blogu da doğrulamaya ilişkindir(validation)
             // productvalidator de yaptığmız için aşağıdaki validationları sildik buradan
 
@@ -108,11 +110,21 @@ namespace Business.Concrete
             // bunun yerine gidip metodun başına [ValidationAspect(typeof(ProductValidator))] yazıyoruz.
 
             //ValidationTool.Validate(new ProductValidator(), product); 
+            // && diyip aşağıdaki şartı da ekleyebiliriz ama if'le yazmanın daha fazla avantajı var.
+            // iş kuralları arttıkca iç içe gittikçe çirkin bir kod görüntüsü oluşmaya başlıyor aşağıdaki gibi.
+            // o nedenle bir iş motoru yazacağız bunu da her projede kullanabileceğimiz için Core'da yazacağız
 
-            _productDal.Add(product);
+            if (CheckIfProductCountOfCategoryCorrect(product.CategoryId).Success) 
+            {
+                if(CheckProductNameExist(product.ProductName).Success)
+                {
+                    _productDal.Add(product);
 
-            return new SuccessResult(Messages.ProductAdded);
+                    return new SuccessResult(Messages.ProductAdded);
+                }
 
+            }
+            return new ErrorResult();
             //_productDal.Add(product);
 
             //return new SuccessResult(Messages.ProductAdded); // mesaj yazarsak dönen sonuç
@@ -156,25 +168,25 @@ namespace Business.Concrete
                 return new ErrorDataResult<List<Product>>(Messages.MaintenanceTime);
             }
 
-            return new SuccessDataResult<List<Product>>(_productDal.GetAll(),Messages.ProductsListed);
+            return new SuccessDataResult<List<Product>>(_productDal.GetAll(), Messages.ProductsListed);
 
             //DataResult'ın da SuccessDataResult ve ErrorDataResult diyerek başarılı başarısız versiyonlarını yapabiliriz.
         }
 
         public IDataResult<List<Product>> GetAllByCategoryId(int id)
         {
-            return new SuccessDataResult<List<Product>>(_productDal.GetAll(p=>p.CategoryId == id));
+            return new SuccessDataResult<List<Product>>(_productDal.GetAll(p => p.CategoryId == id));
             //her p için olur da benim gönderdiğim CategoryId'ye eşitse onları filtrele demek.
         }
 
         public IDataResult<Product> GetById(int productId)
         {
-            return new SuccessDataResult<Product>(_productDal.Get(p=>p.ProductId == productId));
+            return new SuccessDataResult<Product>(_productDal.Get(p => p.ProductId == productId));
         }
 
         public IDataResult<List<Product>> GetByUnitPrice(decimal min, decimal max)
         {
-            return new SuccessDataResult<List<Product>>(_productDal.GetAll(p=>p.UnitPrice>=min && p.UnitPrice<=max));
+            return new SuccessDataResult<List<Product>>(_productDal.GetAll(p => p.UnitPrice >= min && p.UnitPrice <= max));
             // iki fiyat aralığında olan verileri getirecektir.
         }
 
@@ -185,15 +197,49 @@ namespace Business.Concrete
             {
                 return new ErrorDataResult<List<ProductDetailDto>>(Messages.MaintenanceTime);
             }
-            */ 
+            */
             // hoca siz yazmayın dedi. Yazıp console da çalıştırınca sistem bakımda yazısı geliyor.// şu an saat 23 bu arada.
             return new SuccessDataResult<List<ProductDetailDto>>(_productDal.GetProductDetails());
         }
 
+        [ValidationAspect(typeof(ProductValidator))]
         public IResult Update(Product product)
         {
+            var result = _productDal.GetAll(p => p.CategoryId == product.CategoryId).Count;
+            if (result > 10)
+            {
+                return new ErrorResult(Messages.ProductCountOfCategoryError);
+            }
+
             _productDal.Update(product);
             return new SuccessResult(Messages.ProductUpdated);
+        }
+
+        // aşağıdaki bir iş kuralı ve bu metodun sadece bu classın içerisinde kullanılmasını istediğimden private yazıyoruz.
+        // şayet bunu başka managerlarda kullanmak istiyorsak sakın public yapma bunu gidip Iservis te düzenleuyip implemente et.
+
+        // Select count(*) from products where categoryId = 1 --> getall database'teki tüm verileri çekmez, bu sorguyu gönderir ve bunun sonucunu getirir.
+        private IResult CheckIfProductCountOfCategoryCorrect(int categoryId)
+        {
+            var result = _productDal.GetAll(p => p.CategoryId == categoryId).Count;
+            if (result > 10)
+            {
+                return new ErrorResult(Messages.ProductCountOfCategoryError);
+            }
+
+            return new SuccessResult();
+        }
+
+        private IResult CheckProductNameExist(string productName)
+        {
+            var result = _productDal.GetAll(p => p.ProductName == productName).Any(); // Any var mı anlamında kullanılır
+
+           if(result)
+            {
+                return new ErrorResult(Messages.ProductNameAlreadyExist);
+            }
+           return new SuccessResult();
+         
         }
     }
 }
