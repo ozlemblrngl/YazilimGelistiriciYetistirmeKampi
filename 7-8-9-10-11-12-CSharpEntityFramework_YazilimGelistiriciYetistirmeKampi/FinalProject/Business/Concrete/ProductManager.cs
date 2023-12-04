@@ -23,10 +23,12 @@ namespace Business.Concrete
     public class ProductManager : IProductService
     {
         IProductDal _productDal;
+        
 
         public ProductManager(IProductDal productDal)
         {
             _productDal = productDal;
+          
         }
 
 
@@ -40,7 +42,10 @@ namespace Business.Concrete
         // validation iş kurallarının alt maddesidir.
 
 
-        [ValidationAspect(typeof(ProductValidator))] // ASPECT'in son hali bu. Şu an metodumuzda validation yok ama aspect'i ekledik.
+
+
+       [ValidationAspect(typeof(ProductValidator))] // ASPECT'in son hali bu. Şu an metodumuzda validation yok ama aspect'i ekledik.
+       // biz attributelara tipleri type of ile ekliyoruz.
         public IResult Add(Product product) 
         {
             // aşağıdaki iki if blogu da doğrulamaya ilişkindir(validation)
@@ -104,12 +109,15 @@ namespace Business.Concrete
 
             //ValidationTool.Validate(new ProductValidator(), product); 
 
-
             _productDal.Add(product);
 
-            return new SuccessResult(Messages.ProductAdded); // mesaj yazarsak dönen sonuç
+            return new SuccessResult(Messages.ProductAdded);
+
+            //_productDal.Add(product);
+
+            //return new SuccessResult(Messages.ProductAdded); // mesaj yazarsak dönen sonuç
             //return new SuccessResult(); // mesaj yazmadan dönen sonuc
-        
+
 
             //yukarıya içine mesaj alarak başarılı olup olmadığını dönen, ya da mesaj almadan başarılı olup olmadığını dönen sonuçları yazabiliriz.
             // kod yukarıdaki gibi güncellendi aşağısı değişti.

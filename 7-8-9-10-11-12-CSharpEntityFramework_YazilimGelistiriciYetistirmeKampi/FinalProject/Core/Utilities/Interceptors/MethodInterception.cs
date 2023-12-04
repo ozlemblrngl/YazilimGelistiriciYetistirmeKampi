@@ -2,6 +2,7 @@
 
 namespace Core.Utilities.Interceptors
 {
+    //biz bir aspect yazdığımız zaman o aspect nerede çalışşın istiyorsak gidip onun ilgili metotlarını eziyoruz.
 
     public abstract class MethodInterception : MethodInterceptionBaseAttribute
     {

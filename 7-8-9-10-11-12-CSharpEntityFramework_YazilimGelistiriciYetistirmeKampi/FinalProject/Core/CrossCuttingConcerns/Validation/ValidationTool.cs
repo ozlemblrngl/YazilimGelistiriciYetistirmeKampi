@@ -26,7 +26,7 @@ namespace Core.CrossCuttingConcerns.Validation
             var result = validator.Validate(context); //--> productvalidatoru validator yaptık
             if (!result.IsValid)
             {
-                throw new FluentValidation.ValidationException(result.Errors); // FluentValidation. burası yok hocanın yazdığında. bunu yazmazsak hata alıyoruz.
+                throw new ValidationException(result.Errors); 
             }
 
         }
