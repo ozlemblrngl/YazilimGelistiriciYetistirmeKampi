@@ -3,6 +3,7 @@ using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.InMemory;
@@ -112,39 +113,36 @@ namespace Business.Concrete
             //ValidationTool.Validate(new ProductValidator(), product); 
             // && diyip aşağıdaki şartı da ekleyebiliriz ama if'le yazmanın daha fazla avantajı var.
             // iş kuralları arttıkca iç içe gittikçe çirkin bir kod görüntüsü oluşmaya başlıyor aşağıdaki gibi.
-            // o nedenle bir iş motoru yazacağız bunu da her projede kullanabileceğimiz için Core'da yazacağız
+            // o nedenle bir iş motoru yazacağız bunu da her projede kullanabileceğimiz için Core'da yazacağız.
+            // yarın bir gün yeni bir kural gelirse, BusinessRules.Run() içine virgülle aşağıya ekleyeceğiz.
 
-            if (CheckIfProductCountOfCategoryCorrect(product.CategoryId).Success) 
+          IResult result = BusinessRules.Run(CheckIfProductCountOfCategoryCorrect(product.CategoryId), 
+                CheckProductNameExist(product.ProductName)); 
+
+            if(result != null) // buradaki result ya boştur ya doludur ve result kurala uymayandır burada.
+             // eğer kurala uymayan varsa
             {
-                if(CheckProductNameExist(product.ProductName).Success)
-                {
-                    _productDal.Add(product);
-
-                    return new SuccessResult(Messages.ProductAdded);
-                }
-
+                return result; // hatayı döndür
             }
-            return new ErrorResult();
-            //_productDal.Add(product);
+            _productDal.Add(product);
 
-            //return new SuccessResult(Messages.ProductAdded); // mesaj yazarsak dönen sonuç
-            //return new SuccessResult(); // mesaj yazmadan dönen sonuc
+            return new SuccessResult(Messages.ProductAdded);
 
 
-            //yukarıya içine mesaj alarak başarılı olup olmadığını dönen, ya da mesaj almadan başarılı olup olmadığını dönen sonuçları yazabiliriz.
-            // kod yukarıdaki gibi güncellendi aşağısı değişti.
-            //return new Result(true, "ürün eklendi");   // burada da return döndürüyoruz Result'a
-            // biz istiyoruz ki  return new Result() 'ın içini
-            // return new Result(true, "ürün eklendi");  olabilecek şekilde yapabilelim bunu yapmanın yöntemi ise;
-            // constuctor eklemektir.
-            // bunu yapmak için Result'ın üstüne gelik ilk sırada generate etme tuşuna bastık ve daha sonra Result class'ına gittik.
-            // Orada düzenlemeler yapyoruz.
+            // eğer hata yoksa direkt işlemi yapsın. böyşece aşağıdaki çirkin kodları da kaldırırz
 
+            //if (CheckIfProductCountOfCategoryCorrect(product.CategoryId).Success) 
+            //{
+            //    if(CheckProductNameExist(product.ProductName).Success)
+            //    {
+            //        _productDal.Add(product);
 
-            // IResult result = new Result()
-            // result.Success(); 
-            // vs de yazabilirdik yukarıda ama bunu yapmadan
-            // // return new Result() diyebiliriz çünkü IResult zaten  bu değeri tutuyor içinde.
+            //        return new SuccessResult(Messages.ProductAdded);
+            //    }
+
+            //}
+            //return new ErrorResult();
+
         }
 
         public IResult Delete(Product product)
@@ -240,6 +238,11 @@ namespace Business.Concrete
             }
            return new SuccessResult();
          
+        }
+
+        private IResult CheckCategoryCount(int categoryId) 
+        { 
+         var result = _productDal.GetAll // dikkat soruyu tamamla 2h.34m
         }
     }
 }
