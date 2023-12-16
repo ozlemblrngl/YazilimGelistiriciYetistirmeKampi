@@ -2,20 +2,11 @@
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
-using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
-using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
 using Entities.DTOs;
-using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
@@ -24,11 +15,17 @@ namespace Business.Concrete
     public class ProductManager : IProductService
     {
         IProductDal _productDal;
+        ICategoryService _categoryService; // servis dememizin nedeni bir kere yaz ona ait kuralları servise koy ve başkası bunu kullanmak istiyosa direkt bunu kullansın.
 
 
-        public ProductManager(IProductDal productDal)
+        // bir manager'ın içerisinde kendi injection'ı olan dal dışında başka bir dal injectionı yapamayız ama servisi yaparız.
+        // kısaca basşa bir dal'ı inject edemeyiz ama başka bir servisi inject edebiliriz.
+        // microservislerde de bu şekilde kullanılır servisler. örn bir kimlik doğrulamasında e devlet kimlik doğrulaması istiyorsak onu da bu şekilde yazmalıyız.
+        // servis bazlı yazacağız.
+        public ProductManager(IProductDal productDal, ICategoryService categoryService)
         {
             _productDal = productDal;
+            _categoryService = categoryService;
 
         }
 
@@ -116,11 +113,11 @@ namespace Business.Concrete
             // o nedenle bir iş motoru yazacağız bunu da her projede kullanabileceğimiz için Core'da yazacağız.
             // yarın bir gün yeni bir kural gelirse, BusinessRules.Run() içine virgülle aşağıya ekleyeceğiz.
 
-          IResult result = BusinessRules.Run(CheckIfProductCountOfCategoryCorrect(product.CategoryId), 
-                CheckProductNameExist(product.ProductName)); 
+            IResult result = BusinessRules.Run(CheckIfProductCountOfCategoryCorrect(product.CategoryId),
+                  CheckProductNameExist(product.ProductName), CheckIfCategoryLimitExceeded());
 
-            if(result != null) // buradaki result ya boştur ya doludur ve result kurala uymayandır burada.
-             // eğer kurala uymayan varsa
+            if (result != null) // buradaki result ya boştur ya doludur ve result kurala uymayandır burada.
+                                // eğer kurala uymayan varsa
             {
                 return result; // hatayı döndür
             }
@@ -129,7 +126,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.ProductAdded);
 
 
-            // eğer hata yoksa direkt işlemi yapsın. böyşece aşağıdaki çirkin kodları da kaldırırz
+            // eğer hata yoksa direkt işlemi yapsın. böylece aşağıdaki çirkin kodları da kaldırırz
 
             //if (CheckIfProductCountOfCategoryCorrect(product.CategoryId).Success) 
             //{
@@ -203,6 +200,7 @@ namespace Business.Concrete
         [ValidationAspect(typeof(ProductValidator))]
         public IResult Update(Product product)
         {
+            // bir kategoride en fazla 10 ürün olmalı
             var result = _productDal.GetAll(p => p.CategoryId == product.CategoryId).Count;
             if (result > 10)
             {
@@ -214,7 +212,7 @@ namespace Business.Concrete
         }
 
         // aşağıdaki bir iş kuralı ve bu metodun sadece bu classın içerisinde kullanılmasını istediğimden private yazıyoruz.
-        // şayet bunu başka managerlarda kullanmak istiyorsak sakın public yapma bunu gidip Iservis te düzenleuyip implemente et.
+        // şayet bunu başka managerlarda kullanmak istiyorsak sakın public yapma bunu gidip Iservis te düzenleyip implemente et.
 
         // Select count(*) from products where categoryId = 1 --> getall database'teki tüm verileri çekmez, bu sorguyu gönderir ve bunun sonucunu getirir.
         private IResult CheckIfProductCountOfCategoryCorrect(int categoryId)
@@ -232,17 +230,25 @@ namespace Business.Concrete
         {
             var result = _productDal.GetAll(p => p.ProductName == productName).Any(); // Any var mı anlamında kullanılır
 
-           if(result)
+            if (result)
             {
                 return new ErrorResult(Messages.ProductNameAlreadyExist);
             }
-           return new SuccessResult();
-         
+            return new SuccessResult();
+
         }
 
-        private IResult CheckCategoryCount(int categoryId) 
-        { 
-         var result = _productDal.GetAll // dikkat soruyu tamamla 2h.34m
+        // burada kategori sayısı 15 ten fazlaysa ürün ekleme dediğimizden ürünü ilgilendiren bir durum var o nedenle kategori servisini
+        // kullanarak product içerisinde yazıyoruz.
+        private IResult CheckIfCategoryLimitExceeded()
+        {
+            var result = _categoryService.GetAll();
+            if (result.Data.Count > 15)
+            {
+                return new ErrorResult(Messages.CategoryLimitExceed);
+            }
+
+            return new SuccessResult();
         }
     }
 }

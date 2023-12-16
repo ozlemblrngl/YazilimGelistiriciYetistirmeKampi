@@ -1,11 +1,4 @@
-﻿using Entities.Concrete;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Business.Constants
+﻿namespace Business.Constants
 {
     public static class Messages // sabit olması ve new lememek adına static yazdık
     {
@@ -18,6 +11,7 @@ namespace Business.Constants
         public static string UnitPriceInvalid = "ürün fiyatı geçersiz";
         public static string ProductCountOfCategoryError = "ürün sayısı geçersiz";
         public static string ProductNameAlreadyExist = "Bu isimde başka bir ürün bulunmaktadır";
+        public static string CategoryLimitExceed = "Kategori limiti aşıldığı için yeni ürün eklenemiyor";
     }
 }
 
