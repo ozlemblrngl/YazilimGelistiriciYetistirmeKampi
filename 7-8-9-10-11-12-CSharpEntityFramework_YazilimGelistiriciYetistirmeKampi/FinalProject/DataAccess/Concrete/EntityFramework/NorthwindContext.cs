@@ -1,26 +1,21 @@
 ﻿using Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.EntityFramework
 {
     // Context : Db tabloları ile proje classlarını bağlamak.
     // ismine Context vermem context olduğu anlamına gelmez.
     // Gelmesi için :DbContext eklemesi yapmalıyız. Bu da package ile geliyor.
-    public class NorthwindContext:DbContext
-        // DbContext Microsoft EntityFrameworkCore'dan geliyor
+    public class NorthwindContext : DbContext
+    // DbContext Microsoft EntityFrameworkCore'dan geliyor
     {
         // override yazdık, bir boşluk bıraktık on yazısını yazına yandaki çıktı. 
         // bu metot projemizin hangi veri tabanıyla ilişkili olduğunu belirteceğimiz yerdir.
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 
-            optionsBuilder.UseSqlServer(@"Server = (localdb)\MSSQLLocalDB;Database = Northwind;Trusted_Connection = true");
-           
+            optionsBuilder.UseSqlServer(@"Server = (localdb)\ProjectModels;Database = Northwind;Trusted_Connection = true");
+
             // burada Sql Server kullanacağız diyoruz.                                                                
             // Metodun içerisinde de hangi veritabanına bağlanacağımızı " " (connection string) içerisinde söyleyeceğiz.                                                                
             // @ --> kullanıyoruz başına çünkü \ 'ın bir anlamı vardır programlamada, ama bu anlamda kullanmayacağız.                                                             
@@ -47,9 +42,9 @@ namespace DataAccess.Concrete.EntityFramework
 
         public DbSet<Category> Categories { get; set; }
 
-        public DbSet<Customer> Customers { get; set; }  
+        public DbSet<Customer> Customers { get; set; }
 
-        public DbSet<Order> Orders { get; set; }    
+        public DbSet<Order> Orders { get; set; }
 
     }
 }

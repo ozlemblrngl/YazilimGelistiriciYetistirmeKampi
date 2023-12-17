@@ -39,9 +39,14 @@ namespace Business.Concrete
         // öğrenciler validasyon ve business kodlarını genelde birbirine karıştırıyor.İkisini ayırmamız gerekli.
         // validation iş kurallarının alt maddesidir.
 
+        // korunan metot. bunu çağıran kişinin nasıl bir role sahip olması lazım? admin, editor vs olabilir vs
+        // bazen de kişi bazında değil operasyon bazında yetkilendirme yapmak isteyebiliriz. product.Add 
+        // veya product.add yetkisine sahip olabilir ya da admin olabilir de diyebiliriz. (product.add, admin)
+        // bu anahtarlara şimdilik yetki diyeceğimiz Claim deriz.İster admin ister product.add bunlar birer claim dir.
+        // api bazlı yapılarda bir Json Web Token oluşturuyoruz. JWT BİR WEB STANDARTIDIR. Bir json formatıdır. Yani bir metin ama formatlı bir metin.
 
 
-
+        //[SecuredOperation("product.Add")]
         [ValidationAspect(typeof(ProductValidator))] // ASPECT'in son hali bu. Şu an metodumuzda validation yok ama aspect'i ekledik.
                                                      // biz attributelara tipleri type of ile ekliyoruz.
         public IResult Add(Product product)
