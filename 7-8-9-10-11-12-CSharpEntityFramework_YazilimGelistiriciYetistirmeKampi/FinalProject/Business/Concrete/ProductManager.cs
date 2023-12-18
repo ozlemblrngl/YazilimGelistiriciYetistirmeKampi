@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
@@ -46,7 +47,7 @@ namespace Business.Concrete
         // api bazlı yapılarda bir Json Web Token oluşturuyoruz. JWT BİR WEB STANDARTIDIR. Bir json formatıdır. Yani bir metin ama formatlı bir metin.
 
 
-        //[SecuredOperation("product.Add")]
+        [SecuredOperation("product.Add")]
         [ValidationAspect(typeof(ProductValidator))] // ASPECT'in son hali bu. Şu an metodumuzda validation yok ama aspect'i ekledik.
                                                      // biz attributelara tipleri type of ile ekliyoruz.
         public IResult Add(Product product)
