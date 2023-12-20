@@ -1,12 +1,11 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using Business.Abstract;
-using Business.Concrete;
 using Business.DependencyResolvers.Autofac;
-using DataAccess.Abstract;
-using DataAccess.Concrete.EntityFramework;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.SignalR;
+using Core.Utilities.IoC;
+using Core.Utilities.Security.Encryption;
+using Core.Utilities.Security.Jwt;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 public class Program
 {
@@ -64,6 +63,27 @@ public class Program
         // Yukarıda AddSingleton<IProductService,ProductManager> () dedik ama burada IProductService'te ProductManager'ın da bağımlılığı var.
         // IProductDal'ın implemente edildiği EfProductDal'a bağımlılığı var.
 
+        builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+        var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
+
+        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidIssuer = tokenOptions.Issuer,
+                    ValidAudience = tokenOptions.Audience,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
+                };
+            });
+        ServiceTool.Create(builder.Services);
+
+
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
@@ -81,15 +101,17 @@ public class Program
 
         app.UseHttpsRedirection();
 
+        app.UseAuthentication();
+
         app.UseAuthorization();
 
         app.MapControllers();
 
         app.Run();
 
-        
 
-       
+
+
         //// ASP.NET Core 3.0+:
         //// The UseServiceProviderFactory call attaches the
         //// Autofac provider to the generic hosting mechanism.
@@ -110,5 +132,5 @@ public class Program
         //host.Run();
     }
 
-    
+
 }
