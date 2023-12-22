@@ -63,7 +63,7 @@ public class Program
         // Yukarıda AddSingleton<IProductService,ProductManager> () dedik ama burada IProductService'te ProductManager'ın da bağımlılığı var.
         // IProductDal'ın implemente edildiği EfProductDal'a bağımlılığı var.
 
-        builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
 
         var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
 
